@@ -22,7 +22,7 @@ class Userprofile(models.Model):
     
 class Product(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
-    title=models.CharField(max_length=200,related_name="pro_title")
+    title=models.CharField(max_length=200)
     media=models.FileField(upload_to="product_media")
     description=models.CharField(max_length=200)
     price=models.PositiveIntegerField()
@@ -34,7 +34,7 @@ class Product(models.Model):
 
 class Cart(models.Model):
     
-    user=models.ForeignKey(User,on_delete=models.CASCADE,relate_name="cart")
+    user=models.ForeignKey(User,on_delete=models.CASCADE,related_name="cart")
     created_at=models.DateTimeField(auto_now_add=True)
     
 
@@ -50,7 +50,7 @@ class Cart(models.Model):
 
 
 
-class CartItem(models.model):
+class CartItem(models.Model):
     cart=models.OneToOneField(Cart, on_delete=models.CASCADE,related_name="cartitems")
     product=models.ForeignKey(Product,on_delete=models.CASCADE)
 
