@@ -7,7 +7,7 @@ from django.db.models.signals import post_save
 class Userprofile(models.Model):
     user=models.OneToOneField(User, on_delete=models.CASCADE)
     name=models.CharField(max_length=200)
-    profile_pic=models.ImageField(upload_to="profile_pics",null=True)
+    profile_pic=models.ImageField(upload_to="profile_pics",default='default.webp',null=True)
     bio=models.CharField(max_length=200)
     option=(
         ("drawing","drawing"),
