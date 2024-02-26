@@ -1,10 +1,11 @@
 from django.shortcuts import render
-from api.serializers import UserSerializer,UserProfileSerializer
+from api.serializers import UserSerializer,UserProfileSerializer,ProductSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework import serializers
-from api.models import Userprofile
+from api.models import Userprofile,Product
+from rest_framework import authentication,permissions
 
 
 # Create your views here.
@@ -26,4 +27,22 @@ class UserProfileUpdateRetiveView(viewsets.ModelViewSet):
     
     def destroy(self, request, *args, **kwargs):
         raise serializers.ValidationError("permission denied")
+    
+class ProductCreatListUpdateDestroyView(viewsets.ModelViewSet):
+    authentication_classes=[authentication.TokenAuthentication]
+    permission_classes=[permissions.IsAuthenticated]
+
+
+    serializer_class=ProductSerializer
+    queryset=Product.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def update(self, request, *args, **kwargs):
+       instance= self.get_object()
+       if request.user==instance.user:
+            return super().update(request,*args,**kwargs)
+       else:
+           return Response("you have no permission")
 

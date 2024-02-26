@@ -5,6 +5,7 @@ from rest_framework.routers import DefaultRouter
 
 router=DefaultRouter()
 router.register("userprofile",views.UserProfileUpdateRetiveView ,basename="userprofile")
+router.register("product",views.ProductCreatListUpdateDestroyView,basename="product")
 from django.urls import re_path
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
