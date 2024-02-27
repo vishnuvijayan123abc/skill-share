@@ -34,7 +34,7 @@ class Product(models.Model):
 
 class Cart(models.Model):
     
-    user=models.ForeignKey(User,on_delete=models.CASCADE,related_name="cart")
+    user=models.OneToOneField(User,on_delete=models.CASCADE,related_name="cart")
     created_at=models.DateTimeField(auto_now_add=True)
     
 
@@ -47,12 +47,22 @@ class Cart(models.Model):
         cartitem=self.cartitems
         if cartitem:
             total=sum([items.total for items in cartitem])
+        else:
+            return 0    
 
 
 
 class CartItem(models.Model):
-    cart=models.OneToOneField(Cart, on_delete=models.CASCADE,related_name="cartitems")
+    cart=models.ForeignKey(Cart, on_delete=models.CASCADE,related_name="cartitems")
     product=models.ForeignKey(Product,on_delete=models.CASCADE)
+    qty=models.PositiveIntegerField(default=1)
+    is_active=models.BooleanField(default=True)
+    created_at=models.DateTimeField(auto_now_add=True)
+    updated_at=models.DateTimeField(auto_now=True)
+
+    @property
+    def total(self):
+        return self.qty*self.product.price
 
 
 

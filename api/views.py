@@ -1,11 +1,12 @@
 from django.shortcuts import render
-from api.serializers import UserSerializer,UserProfileSerializer,ProductSerializer
+from api.serializers import UserSerializer,UserProfileSerializer,ProductSerializer,CartItemSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework import serializers
 from api.models import Userprofile,Product
 from rest_framework import authentication,permissions
+from rest_framework.decorators import action
 
 
 # Create your views here.
@@ -45,4 +46,22 @@ class ProductCreatListUpdateDestroyView(viewsets.ModelViewSet):
             return super().update(request,*args,**kwargs)
        else:
            return Response("you have no permission")
+       
+    @action(methods=["post"],detail=True)
+   
+    def add_to_cart(self,request,*args, **kwargs):
+        id=kwargs.get("pk")
+        product_obj=Product.objects.get(id=id)
+        cart_obj=request.user.cart 
+        serializers=CartItemSerializer(data=request.data)
+        if serializers.is_valid():
+            serializers.save(product=product_obj,cart=cart_obj)
+            return Response(data=serializers.data)
+        return Response(data=serializers.errors)
+  
+   
+
+
+        
+    
 
