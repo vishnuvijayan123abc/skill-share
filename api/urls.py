@@ -6,6 +6,8 @@ from rest_framework.routers import DefaultRouter
 router=DefaultRouter()
 router.register("userprofile",views.UserProfileUpdateRetiveView ,basename="userprofile")
 router.register("product",views.ProductCreatListUpdateDestroyView,basename="product")
+router.register('carts',views.CartView,basename="cart")
+router.register("cartitem",views.CartItemView,basename="cartitem")
 
 from django.urls import re_path
 from rest_framework import permissions

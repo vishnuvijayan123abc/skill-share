@@ -30,10 +30,23 @@ class CartItemSerializer(serializers.ModelSerializer):
       model=CartItem
       fields="__all__"
       read_only_field=["id",
-                     
                      "product",
                      "is_active",
                      "created_at",
                      "updated_at",
                      ]
+class CartSerializer(serializers.ModelSerializer):
+   cart_items=CartItemSerializer(read_only=True,many=True)
+   user=serializers.StringRelatedField()
+   cart_item_total=serializers.IntegerField(read_only=True)
+
+   class Meta:
+      model=Cart
+      fields="__all__"
+      read_only_fields=["id",
+                          "user",
+                          "is_active",
+                          "created_at",
+                          "updated_at",
+                          "cartitems"]      
   

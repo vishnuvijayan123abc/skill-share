@@ -13,6 +13,63 @@
         username:username,
         password:password
      }
+3)Api for listing all Users
+      url:http://127.0.0.1:8000/api/userprofile/
+      method:post
+      Authorization:Token
+
+4)Api for a get a specific user
+       url:http://127.0.0.1:8000/api/userprofile/{id}/
+       method:get
+       Authorization:Token
+5)Api for updating userprofile
+      url:http://127.0.0.1:8000/api/userprofile/2/
+      method:put
+      Authorization:Token
+      data:{
+  "id": 2,
+  "name": "jhon",
+  "profile_pic": "http://127.0.0.1:8000/profile_pics/TYLER_wsE6Dp1.jpeg",
+  "bio": "bioo",
+  "skills": "drawing",
+  "user": 2
+}
+
+6)Api for adiing new product
+       url:http://127.0.0.1:8000/api/product/
+       method:post
+       Authorization:Token
+       data:"title": "",
+            "media": ",
+            "description": "",
+            "price": ,
+7)Api for listing all Products
+       urls:http://127.0.0.1:8000/api/product/
+       method:get
+       Authorization:Token
+
+8)api for updating product
+       url:http://127.0.0.1:8000/api/product/{id}/
+       method:patch
+       data:""
+       Authorization:Token
+9)api for deleting product   
+      url:http://127.0.0.1:8000/api/product/{id}/
+      Authorization:Token           
+10)Api for adding products into baskect
+      url:http://127.0.0.1:8000/api/product/2/add_to_cart/
+      method:post
+      data:qty:""
+      Authorization:token
+11)Api for listing cartitems
+     urls:http://127.0.0.1:8000/api/cartitem/
+     method:get
+     Authorization:Token
+
+                 
+
+
+       
 
    
 

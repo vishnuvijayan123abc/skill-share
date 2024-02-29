@@ -1,10 +1,10 @@
 from django.shortcuts import render
-from api.serializers import UserSerializer,UserProfileSerializer,ProductSerializer,CartItemSerializer
+from api.serializers import UserSerializer,UserProfileSerializer,ProductSerializer,CartItemSerializer,CartSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework import serializers
-from api.models import Userprofile,Product
+from api.models import Userprofile,Product,Cart,CartItem
 from rest_framework import authentication,permissions
 from rest_framework.decorators import action
 
@@ -19,6 +19,8 @@ class UserSignUpView(APIView):
         return Response(data=serializer.errors)
     
 class UserProfileUpdateRetiveView(viewsets.ModelViewSet):
+    authentication_classes=[authentication.TokenAuthentication]
+    permission_classes=[permissions.IsAuthenticated]
     serializer_class=UserProfileSerializer
     queryset=Userprofile.objects.all()
 
@@ -49,17 +51,47 @@ class ProductCreatListUpdateDestroyView(viewsets.ModelViewSet):
        
     @action(methods=["post"],detail=True)
    
-    def add_to_cart(self,request,*args, **kwargs):
-        id=kwargs.get("pk")
-        product_obj=Product.objects.get(id=id)
-        cart_obj=request.user.cart 
-        serializers=CartItemSerializer(data=request.data)
-        if serializers.is_valid():
-            serializers.save(product=product_obj,cart=cart_obj)
-            return Response(data=serializers.data)
-        return Response(data=serializers.errors)
-  
-   
+    def add_to_cart(self, request, *args, **kwargs):
+        product_id = kwargs.get("pk")
+        product_obj = Product.objects.get(id=product_id)
+
+        # Get or create a cart for the user
+        cart_obj, created = Cart.objects.get_or_create(user=request.user)
+
+        # Create a mutable copy of request.data
+        mutable_data = request.data.copy()
+
+        # Set the cart field in the mutable copy
+        mutable_data['cart'] = cart_obj.id
+
+        serializer = CartItemSerializer(data=mutable_data)
+        if serializer.is_valid():
+            serializer.save(product=product_obj)
+            return Response(data=serializer.data)
+        return Response(data=serializer.errors)
+    
+class CartView(viewsets.ViewSet):
+    authentication_classes=[authentication.TokenAuthentication]
+    permission_classes=[permissions.IsAuthenticated]
+    def list(self,request,*args, **kwargs):
+        qs=request.user.cart 
+        serializers=CartSerializer(qs,many=False)
+        return Response(data=serializers.data)
+    
+
+
+
+class CartItemView(viewsets.ModelViewSet):
+    authentication_classes=[authentication.TokenAuthentication]
+    permission_classes=[permissions.IsAuthenticated]
+
+    serializer_class=CartItemSerializer
+    queryset=CartItem.objects.all()
+
+
+    def create(self, request, *args, **kwargs):
+        raise serializers.ValidationError("permision denied")    
+
 
 
         
