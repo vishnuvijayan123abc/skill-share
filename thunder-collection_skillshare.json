@@ -1,0 +1,331 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "skillshare",
+    "dateExported": "2024-03-04T05:27:57.600Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "4f13187f-ec74-4ade-b4a3-20a130459e54",
+            "colId": "3a11ee88-b6e4-489e-b3a2-fb80704442b8",
+            "containerId": "",
+            "name": "usercreation",
+            "url": "http://127.0.0.1:8000/api/register/",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2024-02-26T05:17:15.542Z",
+            "modified": "2024-02-26T06:29:26.710Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "username",
+                        "value": "jhon"
+                    },
+                    {
+                        "name": "email",
+                        "value": "jhon@gmail.com"
+                    },
+                    {
+                        "name": "password",
+                        "value": "Password@123"
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "78d9e8ba-55da-4b35-bed7-8c4e0826dd19",
+            "colId": "3a11ee88-b6e4-489e-b3a2-fb80704442b8",
+            "containerId": "",
+            "name": "get token",
+            "url": "http://127.0.0.1:8000/api/token/",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-02-26T05:31:54.547Z",
+            "modified": "2024-02-27T09:05:16.370Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "username",
+                        "value": "user1"
+                    },
+                    {
+                        "name": "password",
+                        "value": "Password@123"
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "98c09d8c-d0f3-44f2-afac-cfa4ab0faa90",
+            "colId": "3a11ee88-b6e4-489e-b3a2-fb80704442b8",
+            "containerId": "",
+            "name": "listing all users",
+            "url": "http://127.0.0.1:8000/api/userprofile/2/",
+            "method": "PUT",
+            "sortNum": 30000,
+            "created": "2024-02-26T06:22:29.054Z",
+            "modified": "2024-02-29T05:59:57.436Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "Token  deb49e4bda589501a7ddbc39d0732fb9c4be4ebe"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "name",
+                        "value": "jhon"
+                    },
+                    {
+                        "name": "bio",
+                        "value": "bioo"
+                    },
+                    {
+                        "name": "skills",
+                        "value": "drawing"
+                    },
+                    {
+                        "name": "user",
+                        "value": "2"
+                    }
+                ],
+                "files": [
+                    {
+                        "name": "profile_pic",
+                        "value": "c:\\Users\\VISHNU\\Downloads\\TYLER.jpeg"
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "d8a20970-95b4-427c-93d3-16cb06242ba4",
+            "colId": "3a11ee88-b6e4-489e-b3a2-fb80704442b8",
+            "containerId": "",
+            "name": "specific user",
+            "url": "http://127.0.0.1:8000/api/userprofile/1/",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2024-02-26T06:39:39.526Z",
+            "modified": "2024-02-29T05:56:07.526Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "Token  deb49e4bda589501a7ddbc39d0732fb9c4be4ebe"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "21f22e7a-fc5a-4d07-a3e4-a2165e53541c",
+            "colId": "3a11ee88-b6e4-489e-b3a2-fb80704442b8",
+            "containerId": "",
+            "name": "update userprofile",
+            "url": "http://127.0.0.1:8000/api/userprofile/1/",
+            "method": "GET",
+            "sortNum": 50000,
+            "created": "2024-02-26T06:40:10.710Z",
+            "modified": "2024-02-26T06:40:29.284Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"id\": 1,\n  \"name\": \"user\",\n  \"profile_pic\": null,\n  \"bio\": \"user bio\",\n  \"skills\": \"drawing\",\n  \"user\": 1\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "5a1cd454-98cd-42fa-851d-3b8b21e60428",
+            "colId": "3a11ee88-b6e4-489e-b3a2-fb80704442b8",
+            "containerId": "",
+            "name": "product add",
+            "url": "http://127.0.0.1:8000/api/product/",
+            "method": "GET",
+            "sortNum": 70000,
+            "created": "2024-02-26T08:35:40.201Z",
+            "modified": "2024-02-29T06:10:03.083Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "Token deb49e4bda589501a7ddbc39d0732fb9c4be4ebe"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "title",
+                        "value": "apple drawing"
+                    },
+                    {
+                        "name": "description",
+                        "value": "drawing of apple"
+                    },
+                    {
+                        "name": "price",
+                        "value": "1300"
+                    }
+                ],
+                "files": [
+                    {
+                        "name": "media",
+                        "value": "c:\\Users\\VISHNU\\Downloads\\apple.jpg"
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "1a0d3f08-a2cf-4528-9fe7-2ee7bb659e40",
+            "colId": "3a11ee88-b6e4-489e-b3a2-fb80704442b8",
+            "containerId": "",
+            "name": "listing all products",
+            "url": "http://127.0.0.1:8000/api/product/",
+            "method": "GET",
+            "sortNum": 80000,
+            "created": "2024-02-26T10:00:17.210Z",
+            "modified": "2024-02-26T10:00:50.296Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "Token deb49e4bda589501a7ddbc39d0732fb9c4be4ebe"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "152d132f-c465-42e9-9434-50fa02af732f",
+            "colId": "3a11ee88-b6e4-489e-b3a2-fb80704442b8",
+            "containerId": "",
+            "name": "update products",
+            "url": "http://127.0.0.1:8000/api/product/1/",
+            "method": "PATCH",
+            "sortNum": 90000,
+            "created": "2024-02-26T10:01:01.433Z",
+            "modified": "2024-02-26T10:46:05.885Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "Token deb49e4bda589501a7ddbc39d0732fb9c4be4ebe"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "title",
+                        "value": "drawing"
+                    },
+                    {
+                        "name": "description",
+                        "value": "drawingss"
+                    },
+                    {
+                        "name": "price",
+                        "value": "1200"
+                    }
+                ],
+                "files": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "144119e2-fe4b-440f-8a88-e9bde8cbff56",
+            "colId": "3a11ee88-b6e4-489e-b3a2-fb80704442b8",
+            "containerId": "",
+            "name": "add to cart",
+            "url": "http://127.0.0.1:8000/api/product/2/add_to_cart/",
+            "method": "POST",
+            "sortNum": 100000,
+            "created": "2024-02-27T05:38:14.727Z",
+            "modified": "2024-02-27T09:05:34.111Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "Token deb49e4bda589501a7ddbc39d0732fb9c4be4ebe"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "qty",
+                        "value": "2"
+                    },
+                    {
+                        "name": "user",
+                        "value": "1",
+                        "isDisabled": true
+                    },
+                    {
+                        "name": "cart",
+                        "value": "1",
+                        "isDisabled": true
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "21624e9d-a2a3-43ad-abf8-166b286567ad",
+            "colId": "3a11ee88-b6e4-489e-b3a2-fb80704442b8",
+            "containerId": "",
+            "name": "listing baskect",
+            "url": "http://127.0.0.1:8000/api/carts/",
+            "method": "GET",
+            "sortNum": 110000,
+            "created": "2024-02-27T09:24:12.185Z",
+            "modified": "2024-02-27T09:25:24.374Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "Token  deb49e4bda589501a7ddbc39d0732fb9c4be4ebe"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "c655a014-2771-4a54-90b2-8a1a6619aea5",
+            "colId": "3a11ee88-b6e4-489e-b3a2-fb80704442b8",
+            "containerId": "",
+            "name": "listing cartitem",
+            "url": "http://127.0.0.1:8000/api/cartitem/",
+            "method": "GET",
+            "sortNum": 120000,
+            "created": "2024-02-28T02:51:25.277Z",
+            "modified": "2024-02-29T05:43:51.542Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "Token deb49e4bda589501a7ddbc39d0732fb9c4be4ebe"
+                }
+            ],
+            "params": [],
+            "tests": []
+        }
+    ]
+}
