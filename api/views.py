@@ -1,12 +1,15 @@
 from django.shortcuts import render
-from api.serializers import UserSerializer,UserProfileSerializer,ProductSerializer,CartItemSerializer,CartSerializer
+from api.serializers import UserSerializer,UserProfileSerializer,ProductSerializer,CartItemSerializer,CartSerializer,CommentSerializer,BidSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework import serializers
-from api.models import Userprofile,Product,Cart,CartItem
+from api.models import Userprofile,Product,Cart,CartItem,Comment,Bids
 from rest_framework import authentication,permissions
 from rest_framework.decorators import action
+from django.shortcuts import get_object_or_404
+from rest_framework import status
+from rest_framework import generics
 
 
 # Create your views here.
@@ -92,8 +95,29 @@ class CartItemView(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         raise serializers.ValidationError("permision denied")    
 
+class CommentView(viewsets.ModelViewSet):
+    authentication_classes=[authentication.TokenAuthentication]
+    permission_classes=[permissions.IsAuthenticated]
 
-
-        
+    serializer_class=CommentSerializer
     
+    def get_queryset(self):
+        product_id = self.kwargs.get('product_id')
+        return Comment.objects.filter(product_id=product_id)
 
+
+    def perform_create(self, serializer):
+        product_id = self.kwargs.get('product_id')
+        serializer.save(user=self.request.user, product_id=product_id)
+class BidView(viewsets.ModelViewSet):
+    authentication_classes=[authentication.TokenAuthentication]
+    permission_classes=[permissions.IsAuthenticated]
+
+    serializer_class=BidSerializer
+    def get_queryset(self):
+        product_id = self.kwargs.get('product_id')
+        return Comment.objects.filter(product_id=product_id)
+
+    def perform_create(self, serializer):
+        product_id = self.kwargs.get('product_id')
+        serializer.save(user=self.request.user, product_id=product_id)

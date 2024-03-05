@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from api.models import Userprofile,Product,Cart,CartItem
+from api.models import Userprofile,Product,Cart,CartItem,Comment,Bids
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -48,5 +48,19 @@ class CartSerializer(serializers.ModelSerializer):
                           "is_active",
                           "created_at",
                           "updated_at",
-                          "cartitems"]      
+                          "cartitems"]     
+class CommentSerializer(serializers.ModelSerializer):
+   class Meta:
+      model=Comment
+      fields="__all__"
+      read_only_fields=["id",
+                        "created_at",
+                        "user",
+                        "product"]    
+      
+class BidSerializer(serializers.ModelSerializer):
+   class Meta:
+      model=Bids
+      fields="__all__"
+      read_only_fields=["id","product","user",]     
   

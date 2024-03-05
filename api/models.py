@@ -64,7 +64,28 @@ class CartItem(models.Model):
     def total(self):
         return self.qty*self.product.price
 
+class Comment(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE,related_name="comment")
+    text=models.CharField(max_length=200)
+    created_date=models.DateTimeField(auto_now_add=True)
+    product=models.ForeignKey(Product,related_name="post_comments",on_delete=models.CASCADE)
 
+    def _str_(self):
+        return self.text
+
+class Bids(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE,related_name="user_bids")
+    product=models.ForeignKey(Product,on_delete=models.CASCADE)
+    amount=models.PositiveIntegerField()
+    bids_options=(
+        ("Pending","pending"),
+        ("Accept","accept"),
+        ("Reject","reject"),
+    )
+    status=models.CharField(max_length=200,choices=bids_options,default="Pending")
+
+    def _str_(self):
+        return self.amount
 
 
 def create_profile(sender,created,instance,**kwargs):
