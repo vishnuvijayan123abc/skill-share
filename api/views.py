@@ -10,6 +10,7 @@ from rest_framework.decorators import action
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework import generics
+from examapi.models import Answer
 
 
 # Create your views here.
@@ -39,18 +40,31 @@ class ProductCreatListUpdateDestroyView(viewsets.ModelViewSet):
     permission_classes=[permissions.IsAuthenticated]
 
 
+
     serializer_class=ProductSerializer
     queryset=Product.objects.all()
 
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
+    
     def update(self, request, *args, **kwargs):
        instance= self.get_object()
        if request.user==instance.user:
             return super().update(request,*args,**kwargs)
        else:
            return Response("you have no permission")
+    def perform_create(self, serializer):
+        # Associate the user making the request with the product
+        serializer.save(user=self.request.user)
+
+    def create(self, request, *args, **kwargs):
+        # Get the user's Answer status
+        answer_status = Answer.objects.filter(user=request.user).first()
+
+        # Check if the user has passed the exam
+        if answer_status and answer_status.status == "pass":
+            return super().create(request, *args, **kwargs)
+        else:
+            return Response({"detail": "User hasn't passed the exam. Cannot create a product."}, status=status.HTTP_403_FORBIDDEN)
+   
        
     @action(methods=["post"],detail=True)
    
