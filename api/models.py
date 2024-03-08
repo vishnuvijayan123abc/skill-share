@@ -70,7 +70,7 @@ class Comment(models.Model):
     created_date=models.DateTimeField(auto_now_add=True)
     product=models.ForeignKey(Product,related_name="post_comments",on_delete=models.CASCADE)
 
-    def _str_(self):
+    def __str__(self):
         return self.text
 
 class Bids(models.Model):
@@ -84,8 +84,9 @@ class Bids(models.Model):
     )
     status=models.CharField(max_length=200,choices=bids_options,default="Pending")
 
-    def _str_(self):
+    def __str__(self):
         return self.amount
+        
 
 
 def create_profile(sender,created,instance,**kwargs):

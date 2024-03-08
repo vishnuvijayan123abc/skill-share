@@ -10,7 +10,7 @@ router.register('carts',views.CartView,basename="cart")
 router.register("cartitem",views.CartItemView,basename="cartitem")
 router.register('comments/(?P<product_id>\d+)',views.CommentView, basename='comment')
 router.register('product/bids/(?P<product_id>\d+)',views.BidView,basename="bid")
-
+router.register("bid",views.ListallBid,basename="bidlist")
 from django.urls import re_path
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view

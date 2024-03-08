@@ -12,6 +12,7 @@ class UserSerializer(serializers.ModelSerializer):
       return User.objects.create_user(**validated_data)     
 
 class UserProfileSerializer(serializers.ModelSerializer):
+   user=serializers.StringRelatedField()
    class Meta:
       model=Userprofile
       fields="__all__" 
@@ -62,5 +63,6 @@ class BidSerializer(serializers.ModelSerializer):
    class Meta:
       model=Bids
       fields="__all__"
-      read_only_fields=["id","product","user",]     
+      read_only_fields=["id","product","user",] 
+          
   

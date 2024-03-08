@@ -121,3 +121,14 @@ class BidView(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         product_id = self.kwargs.get('product_id')
         serializer.save(user=self.request.user, product_id=product_id)
+
+class ListallBid(viewsets.ModelViewSet):
+    serializer_class=BidSerializer
+    queryset=Bids.objects.all()        
+
+    def get_queryset(self):
+        user = self.request.user
+        return Bids.objects.filter(user=user) | Bids.objects.filter(product__user=user)
+    
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
