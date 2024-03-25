@@ -11,6 +11,8 @@ router.register("cartitem",views.CartItemView,basename="cartitem")
 router.register('comments/(?P<product_id>\d+)',views.CommentView, basename='comment')
 router.register('product/bids/(?P<product_id>\d+)',views.BidView,basename="bid")
 router.register("bid",views.ListallBid,basename="bidlist")
+
+
 from django.urls import re_path
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
@@ -32,8 +34,11 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('register/',views.UserSignUpView.as_view()),
-    path("token/",ObtainAuthToken.as_view()),
+    path('send-message/<int:receiver_id>/', views.SendMessageAPIView.as_view(), name='send_message'),
+    path('user-chat-messages/',views.UserChatMessagesAPIView.as_view(), name='user_chat_messages'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('token/', views.ObtainTokenView.as_view(), name='token_obtain'),
+   
   
      
 ]+router.urls

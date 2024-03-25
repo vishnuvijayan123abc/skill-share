@@ -1,16 +1,20 @@
 from django.shortcuts import render
-from api.serializers import UserSerializer,UserProfileSerializer,ProductSerializer,CartItemSerializer,CartSerializer,CommentSerializer,BidSerializer
+from api.serializers import UserSerializer,UserProfileSerializer,ProductSerializer,CartItemSerializer,CartSerializer,CommentSerializer,BidSerializer,ChatSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework import serializers
-from api.models import Userprofile,Product,Cart,CartItem,Comment,Bids
+from api.models import Userprofile,Product,Cart,CartItem,Comment,Bids,Chat
 from rest_framework import authentication,permissions
 from rest_framework.decorators import action
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework import generics
 from examapi.models import Answer
+from rest_framework.permissions import AllowAny
+from rest_framework.authtoken.models import Token
+from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
 
 
 # Create your views here.
@@ -21,6 +25,25 @@ class UserSignUpView(APIView):
             serializer.save()
             return Response(data=serializer.data)
         return Response(data=serializer.errors)
+    
+class ObtainTokenView(APIView):
+    permission_classes = [AllowAny]  # Allow any user to obtain a token
+
+    def post(self, request):
+        username = request.data.get('username')
+        password = request.data.get('password')
+        if not username or not password:
+            return Response({'error': 'Both username and password are required'}, status=400)
+
+        # Perform authentication
+        user = authenticate(username=username, password=password)
+        if not user:
+            return Response({'error': 'Invalid credentials'}, status=400)
+
+        # Create or retrieve token
+        token, created = Token.objects.get_or_create(user=user)
+
+        return Response({'token': token.key, 'user_id': user.id})    
     
 class UserProfileUpdateRetiveView(viewsets.ModelViewSet):
     authentication_classes=[authentication.TokenAuthentication]
@@ -146,3 +169,34 @@ class ListallBid(viewsets.ModelViewSet):
     
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+class SendMessageAPIView(generics.CreateAPIView):
+   
+
+    serializer_class = ChatSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes =[authentication.TokenAuthentication]
+
+    def perform_create(self, serializer):
+        sender_user = self.request.user  # Extract sender user from the authentication token
+        receiver_user_id = self.kwargs.get('receiver_id')
+        receiver_user = get_object_or_404(User, id=receiver_user_id)
+
+        serializer.save(send_user=sender_user, receiver_user=receiver_user)
+
+    def get_queryset(self):
+        sender_user = self.request.user  # Extract sender user from the authentication token
+        receiver_user_id = self.kwargs.get('receiver_id')
+        receiver_user = get_object_or_404(User, id=receiver_user_id)
+
+        queryset = Chat.objects.filter(send_user=sender_user, receiver_user=receiver_user)
+        return queryset
+class UserChatMessagesAPIView(generics.ListAPIView):
+    serializer_class = ChatSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [authentication.TokenAuthentication]
+
+    def get_queryset(self):
+        user = self.request.user  # Get the authenticated user
+        queryset = Chat.objects.filter(send_user=user) | Chat.objects.filter(receiver_user=user)
+        return queryset
